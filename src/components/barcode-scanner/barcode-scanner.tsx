@@ -55,23 +55,21 @@ export class BarcodeScanner {
 
   componentDidRender() {
     // document.getElementById('startButton').addEventListener('click', () => {
-    this.codeReader.decodeFromInputVideoDeviceContinuously(this.selectedDeviceId, this.videoElement, (result, err) => {
-      if (result) {
-        console.log(result)
-        // this.resultElement.textContent = result.getText();
-        this.scannedHandler(result.getText());
-      }
-      if (err && !(err instanceof BarcodeNotFoundException)) {
-        console.error(err);
-        this.scannedHandler(result.getText());
-        // this.resultElement.textContent = JSON.stringify(err);
-      }
-    })
-      .then(() => {
-        console.log(`Started continous decode from camera with id ${this.selectedDeviceId}`);
+    this.codeReader.decodeFromInputVideoDevice(this.selectedDeviceId, this.videoElement)
+      .then(result => {
+        if (result) {
+          console.log(result);
+          // this.resultElement.textContent = result.getText();
+          this.scannedHandler(result.getText());
+        }
       })
       .catch(err => {
         console.log('Error starting continuous decoding..', err);
+        if (err && !(err instanceof BarcodeNotFoundException)) {
+          console.error(err);
+          this.scannedHandler(err.message);
+          // this.resultElement.textContent = JSON.stringify(err);
+        }
       });
 
   }

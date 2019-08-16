@@ -1,6 +1,6 @@
 {
-  "name": "hei-barcode-scanner",
-  "version": "0.0.1",
+  "name": "@dummy-org/hei-barcode-scanner",
+  "version": "0.0.2",
   "description": "Barcode scanner web component",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -27,6 +27,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@zxing/library": "^0.14.2"
+    "@zxing/library": "^0.15.1"
   }
 }
