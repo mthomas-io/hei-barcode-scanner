@@ -17,19 +17,19 @@ export class BarcodeScanner {
   @Prop() height = '800px';
   @Prop() width = '300px';
 
-  @Event() scannedEvent: EventEmitter;
-  @Event() errorEvent: EventEmitter;
+  @Event() scanned: EventEmitter;
+  @Event() error: EventEmitter;
 
   constructor() {
     this.codeReader = new BrowserMultiFormatReader();
   }
 
   scannedHandler(barcode: string) {
-    this.scannedEvent.emit(barcode);
+    this.scanned.emit(barcode);
   }
 
   errorHandler(msg: string) {
-    this.errorEvent.emit(msg);
+    this.error.emit(msg);
   }
 
   componentWillLoad() {
