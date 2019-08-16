@@ -2,11 +2,6 @@ import { Component, Event, EventEmitter, Prop, h } from '@stencil/core';
 import { NotFoundException as BarcodeNotFoundException } from '@zxing/library';
 import { BrowserMultiFormatReader } from '@zxing/library/esm5/browser/BrowserMultiFormatReader';
 
-interface IScanResultEvent {
-  success: boolean;
-  text: string;
-}
-
 @Component({
   tag: 'hei-barcode-scanner',
   styleUrl: 'barcode-scanner.css',
@@ -22,14 +17,19 @@ export class BarcodeScanner {
   @Prop() height = '800px';
   @Prop() width = '300px';
 
-  @Event() scanned: EventEmitter;
+  @Event() scannedEvent: EventEmitter;
+  @Event() errorEvent: EventEmitter;
 
   constructor() {
     this.codeReader = new BrowserMultiFormatReader();
   }
 
-  scannedHandler(result: IScanResultEvent) {
-    this.scanned.emit(result);
+  scannedHandler(barcode: string) {
+    this.scannedEvent.emit(barcode);
+  }
+
+  errorHandler(msg: string) {
+    this.errorEvent.emit(msg);
   }
 
   componentWillLoad() {
@@ -65,20 +65,14 @@ export class BarcodeScanner {
         if (result) {
           console.log(result);
           // this.resultElement.textContent = result.getText();
-          this.scannedHandler({
-            success: true,
-            text: result.getText(),
-          });
+          this.scannedHandler(result.getText());
         }
       })
       .catch(err => {
         console.log('Error starting continuous decoding..', err);
         if (err && !(err instanceof BarcodeNotFoundException)) {
           console.error(err);
-          this.scannedHandler({
-            success: false,
-            text: err.message,
-          });
+          this.errorHandler(err.message);
           // this.resultElement.textContent = JSON.stringify(err);
         }
       });
