@@ -14,8 +14,8 @@ export class BarcodeScanner {
   // private resultElement: HTMLElement;
   private videoElement: HTMLVideoElement;
 
-  @Prop() height = '800px';
-  @Prop() width = '300px';
+  @Prop() height = 'auto';
+  @Prop() width = 'auto';
 
   @Event() scanned: EventEmitter;
   @Event() error: EventEmitter;
@@ -88,8 +88,8 @@ export class BarcodeScanner {
   render() {
 
     const cssVideo = {
-      width: this.width > this.height ? 'initial' : '100%',
-      height: this.width > this.height ? '100%' : 'initial',
+      width: this.width, //> this.height ? 'initial' : '100%',
+      height: /*this.width >*/ this.height, // ? '100%' : 'initial',
       // position: 'absolute',
       // left: '50%',
       // transform: 'translateX(-50%)',

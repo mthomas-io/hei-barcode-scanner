@@ -7,16 +7,17 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type     | Default   |
-| -------- | --------- | ----------- | -------- | --------- |
-| `height` | `height`  |             | `string` | `'800px'` |
-| `width`  | `width`   |             | `string` | `'300px'` |
+| Property | Attribute | Description | Type     | Default  |
+| -------- | --------- | ----------- | -------- | -------- |
+| `height` | `height`  |             | `string` | `'auto'` |
+| `width`  | `width`   |             | `string` | `'auto'` |
 
 
 ## Events
 
 | Event     | Description | Type               |
 | --------- | ----------- | ------------------ |
+| `error`   |             | `CustomEvent<any>` |
 | `scanned` |             | `CustomEvent<any>` |
 
 

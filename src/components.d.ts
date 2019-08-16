@@ -31,6 +31,7 @@ declare global {
 declare namespace LocalJSX {
   interface HeiBarcodeScanner extends JSXBase.HTMLAttributes<HTMLHeiBarcodeScannerElement> {
     'height'?: string;
+    'onError'?: (event: CustomEvent<any>) => void;
     'onScanned'?: (event: CustomEvent<any>) => void;
     'width'?: string;
   }
