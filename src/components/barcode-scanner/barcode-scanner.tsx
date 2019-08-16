@@ -60,21 +60,25 @@ export class BarcodeScanner {
 
   componentDidRender() {
     // document.getElementById('startButton').addEventListener('click', () => {
-    this.codeReader.decodeFromInputVideoDevice(this.selectedDeviceId, this.videoElement)
-      .then(result => {
-        if (result) {
-          console.log(result);
-          // this.resultElement.textContent = result.getText();
-          this.scannedHandler(result.getText());
-        }
-      })
-      .catch(err => {
+    this.codeReader.decodeFromVideoDevice(this.selectedDeviceId, this.videoElement, (result, err) => {
+      if (result) {
+        console.log(result);
+        // this.resultElement.textContent = result.getText();
+        this.scannedHandler(result.getText());
+      } else {
         console.log('Error starting continuous decoding..', err);
         if (err && !(err instanceof BarcodeNotFoundException)) {
           console.error(err);
           this.errorHandler(err.message);
           // this.resultElement.textContent = JSON.stringify(err);
         }
+      }
+    })
+      .then(result => {
+        console.log('done, result:', result);
+      })
+      .catch(result => {
+        console.log('something went wrong:', result);
       });
 
   }
