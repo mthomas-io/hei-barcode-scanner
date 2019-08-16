@@ -2,6 +2,11 @@ import { Component, Event, EventEmitter, Prop, h } from '@stencil/core';
 import { NotFoundException as BarcodeNotFoundException } from '@zxing/library';
 import { BrowserMultiFormatReader } from '@zxing/library/esm5/browser/BrowserMultiFormatReader';
 
+interface IScanResultEvent {
+  success: boolean;
+  text: string;
+}
+
 @Component({
   tag: 'hei-barcode-scanner',
   styleUrl: 'barcode-scanner.css',
@@ -23,8 +28,8 @@ export class BarcodeScanner {
     this.codeReader = new BrowserMultiFormatReader();
   }
 
-  scannedHandler(barcode: string) {
-    this.scanned.emit(barcode);
+  scannedHandler(result: IScanResultEvent) {
+    this.scanned.emit(result);
   }
 
   componentWillLoad() {
@@ -60,14 +65,20 @@ export class BarcodeScanner {
         if (result) {
           console.log(result);
           // this.resultElement.textContent = result.getText();
-          this.scannedHandler(result.getText());
+          this.scannedHandler({
+            success: true,
+            text: result.getText(),
+          });
         }
       })
       .catch(err => {
         console.log('Error starting continuous decoding..', err);
         if (err && !(err instanceof BarcodeNotFoundException)) {
           console.error(err);
-          this.scannedHandler(err.message);
+          this.scannedHandler({
+            success: false,
+            text: err.message,
+          });
           // this.resultElement.textContent = JSON.stringify(err);
         }
       });
@@ -91,17 +102,5 @@ export class BarcodeScanner {
     };
 
     return <video class="scanner__video" ref={el => this.videoElement = el} style={cssVideo}></video>;
-
-    // return <Host class="scanner">
-    //     <video class="scanner__video" ref={el => this.videoElement = el} style={cssVideo}></video>
-    //   {/* <div style={{ position: 'relative', overflow: 'hidden', width: this.width, height: this.height}}> */}
-    //     {/* <div class="scanner__crosshair"></div> */}
-    //   {/* </div> */}
-
-    //   {/* <label>Result:</label>
-    //   <blockquote>
-    //     <p ref={el => this.resultElement = el as HTMLElement}></p>
-    //   </blockquote> */}
-    // </Host>;
   }
 }
