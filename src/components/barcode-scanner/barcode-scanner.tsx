@@ -1,4 +1,5 @@
 import { Component, Event, EventEmitter, Prop, h } from '@stencil/core';
+import { NotFoundException as BarcodeNotFoundException } from '@zxing/library';
 import { BrowserMultiFormatReader } from '@zxing/library/esm5/browser/BrowserMultiFormatReader';
 
 @Component({
@@ -64,8 +65,9 @@ export class BarcodeScanner {
         console.log(result);
         // this.resultElement.textContent = result.getText();
         this.scannedHandler(result.getText());
-      } else if (err) {
-        console.log('we got an error', err);
+      }
+      if (err && !(err instanceof BarcodeNotFoundException)) {
+        console.error(err);
       }
       /*else {
         console.log('Error starting continuous decoding..', err);
@@ -97,6 +99,7 @@ export class BarcodeScanner {
       width: this.width, //> this.height ? 'initial' : '100%',
       height: /*this.width >*/ this.height, // ? '100%' : 'initial',
       position: 'absolute',
+      objectFit: 'cover',
       left: '50%',
       transform: 'translateX(-50%)',
     };
