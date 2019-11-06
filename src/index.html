@@ -11,9 +11,15 @@
 </head>
 <body>
 
-  <div style="border: 2px solid black">
-    <hei-barcode-scanner></hei-barcode-scanner>
-  </div>
+  <hei-barcode-scanner></hei-barcode-scanner>
+  <button type="button" class=".toggle-input-device">Toggle Device</button>
 
 </body>
+
+<script>
+  var scanner = document.querySelector('hei-barcode-scanner');
+  var toggle = document.querySelector('.toggle-input-device');
+  toggle.addEventListener('click', () => {
+    scanner.toggleDevice();
+  })</script>
 </html>

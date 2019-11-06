@@ -10,7 +10,9 @@ import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 
 export namespace Components {
   interface HeiBarcodeScanner {
+    'debounce': number;
     'height': string;
+    'toggleDevice': () => Promise<void>;
     'width': string;
   }
 }
@@ -30,8 +32,10 @@ declare global {
 
 declare namespace LocalJSX {
   interface HeiBarcodeScanner extends JSXBase.HTMLAttributes<HTMLHeiBarcodeScannerElement> {
+    'debounce'?: number;
     'height'?: string;
     'onError'?: (event: CustomEvent<any>) => void;
+    'onRetrievedVideoDevices'?: (event: CustomEvent<any>) => void;
     'onScanned'?: (event: CustomEvent<any>) => void;
     'width'?: string;
   }
